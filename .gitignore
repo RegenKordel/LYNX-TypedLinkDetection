@@ -129,3 +129,6 @@ dmypy.json
 .pyre/
 
 data/
+*/results/
+*/w2v/
+*/fasttext/
