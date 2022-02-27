@@ -7,8 +7,8 @@ def build_sccnn_model(max_seq_length: int):
     text_in = Input(shape=(max_seq_length, 20, 2), dtype='float32', name='Text_Input')
 
     issue_model = build_issue_model(max_seq_length)
-    encoded_issue_a = issue_model([text_in[:, :, 0]])  # TODO: check if needs batch dim for slicing
-    encoded_issue_b = issue_model([text_in[:, :, 1]])
+    encoded_issue_a = issue_model([text_in[..., 0]])
+    encoded_issue_b = issue_model([text_in[..., 1]])
 
     encoded_link = Concatenate()([encoded_issue_a, encoded_issue_b])
 
@@ -17,11 +17,11 @@ def build_sccnn_model(max_seq_length: int):
 
 def build_issue_model(max_seq_length: int):
     text_in = Input(shape=(max_seq_length, 20), dtype='float32', name='Text_Input')
-    text_in = expand_dims(text_in, axis=-1)
+    x = expand_dims(text_in, axis=-1)
 
-    A = build_branch_a(text_in, max_seq_length=max_seq_length)
-    B = build_branch_b(text_in, max_seq_length=max_seq_length)
-    C = build_branch_c(text_in, max_seq_length=max_seq_length)
+    A = build_branch_a(x, max_seq_length=max_seq_length)
+    B = build_branch_b(x, max_seq_length=max_seq_length)
+    C = build_branch_c(x, max_seq_length=max_seq_length)
 
     conv_concat = Concatenate(axis=-1)([A, B])
     conv_concat = Concatenate(axis=-1)([conv_concat, C])
@@ -51,7 +51,6 @@ def build_branch_a(text_in, max_seq_length: int):
     )(conv_a_rs)
 
     pooled_conv_a_1 = MaxPooling2D(pool_size=(conv_a_1.shape[1], 1), padding='valid')(conv_a_1)
-    #     pooled_conv_a_1 = GlobalMaxPooling2D()(conv_a_1)
     pooled_conv_a_1 = Flatten()(pooled_conv_a_1)
 
     conv_a_2 = Conv2D(
@@ -63,7 +62,6 @@ def build_branch_a(text_in, max_seq_length: int):
     )(conv_a_rs)
 
     pooled_conv_a_2 = MaxPooling2D(pool_size=(conv_a_2.shape[1], 1), padding='valid')(conv_a_2)
-    #     pooled_conv_a_2 = GlobalMaxPooling2D()(conv_a_2)
     pooled_conv_a_2 = Flatten()(pooled_conv_a_2)
 
     conv_a_3 = Conv2D(
@@ -75,7 +73,6 @@ def build_branch_a(text_in, max_seq_length: int):
     )(conv_a_rs)
 
     pooled_conv_a_3 = MaxPooling2D(pool_size=(conv_a_3.shape[1], 1), padding='valid')(conv_a_3)
-    #     pooled_conv_a_3 = GlobalMaxPooling2D()(conv_a_3)
     pooled_conv_a_3 = Flatten()(pooled_conv_a_3)
 
     A = Concatenate(axis=-1)([pooled_conv_a_1, pooled_conv_a_2])
@@ -105,7 +102,6 @@ def build_branch_b(text_in, max_seq_length: int):
     )(conv_b_rs)
 
     pooled_conv_b_1 = MaxPooling2D(pool_size=(conv_b_1.shape[1], 1), padding='valid')(conv_b_1)
-    #     pooled_conv_b_1 = GlobalMaxPooling2D()(conv_b_1)
     pooled_conv_b_1 = Flatten()(pooled_conv_b_1)
 
     conv_b_2 = Conv2D(
@@ -117,7 +113,6 @@ def build_branch_b(text_in, max_seq_length: int):
     )(conv_b_rs)
 
     pooled_conv_b_2 = MaxPooling2D(pool_size=(conv_b_2.shape[1], 1), padding='valid')(conv_b_2)
-    #     pooled_conv_b_2 = GlobalMaxPooling2D()(conv_b_2)
     pooled_conv_b_2 = Flatten()(pooled_conv_b_2)
 
     conv_b_3 = Conv2D(
@@ -129,7 +124,6 @@ def build_branch_b(text_in, max_seq_length: int):
     )(conv_b_rs)
 
     pooled_conv_b_3 = MaxPooling2D(pool_size=(conv_b_3.shape[1], 1), padding='valid')(conv_b_3)
-    #     pooled_conv_b_3 = GlobalMaxPooling2D()(conv_b_3)
     pooled_conv_b_3 = Flatten()(pooled_conv_b_3)
 
     B = Concatenate(axis=-1)([pooled_conv_b_1, pooled_conv_b_2])
@@ -158,7 +152,6 @@ def build_branch_c(text_in, max_seq_length: int):
     )(conv_c_rs)
 
     pooled_conv_c_1 = MaxPooling2D(pool_size=(conv_c_1.shape[1], 1), padding='valid')(conv_c_1)
-    #     pooled_conv_c_1 = GlobalMaxPooling2D()(conv_c_1)
     pooled_conv_c_1 = Flatten()(pooled_conv_c_1)
 
     conv_c_2 = Conv2D(
@@ -170,7 +163,6 @@ def build_branch_c(text_in, max_seq_length: int):
     )(conv_c_rs)
 
     pooled_conv_c_2 = MaxPooling2D(pool_size=(conv_c_2.shape[1], 1), padding='valid')(conv_c_2)
-    #     pooled_conv_c_2 = GlobalMaxPooling2D()(conv_c_2)
     pooled_conv_c_2 = Flatten()(pooled_conv_c_2)
 
     conv_c_3 = Conv2D(
@@ -182,7 +174,6 @@ def build_branch_c(text_in, max_seq_length: int):
     )(conv_c_rs)
 
     pooled_conv_c_3 = MaxPooling2D(pool_size=(conv_c_3.shape[1], 1), padding='valid')(conv_c_3)
-    #     pooled_conv_c_3 = GlobalMaxPooling2D()(conv_c_3)
     pooled_conv_c_3 = Flatten()(pooled_conv_c_3)
 
     C = Concatenate(axis=-1)([pooled_conv_c_1, pooled_conv_c_2])

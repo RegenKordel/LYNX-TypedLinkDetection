@@ -9,6 +9,7 @@ from tensorflow.keras.initializers import Constant
 from tensorflow.keras.layers import Embedding, Input
 from tensorflow.keras.models import Model
 
+from tld.config import preprocessed_data_dir, word_embedding_dir
 from tld.linktypes import fine_linktype_map
 
 
@@ -16,7 +17,7 @@ from tld.linktypes import fine_linktype_map
 
 
 def load_issues(tracker: str):
-    filename = f'../../data/processed/issues_{tracker.lower()}.csv'
+    filename = preprocessed_data_dir / f'issues_{tracker.lower()}.csv'
     return pd.read_csv(filename, encoding="UTF-8", low_memory=False, index_col=['issue_id'], sep=";")
 
 
@@ -34,7 +35,7 @@ def calc_max_concat_seq_length(issue_df: pd.DataFrame) -> int:
 
 def load_links(tracker: str, include_non_links: bool):
     base_name = 'links_plus' if include_non_links else 'links'
-    filename = f'../data/processed/{base_name}_{tracker.lower()}.csv'
+    filename = preprocessed_data_dir / f'{base_name}_{tracker.lower()}.csv'
     return pd.read_csv(filename, encoding="UTF-8", low_memory=False, index_col=0, sep=";")
 
 
@@ -64,7 +65,6 @@ WordEmbeddingModelName = Literal['glove', 'w2v', 'fasttext']
 
 
 def build_embedding_model(embedding_matrix: np.ndarray, max_seq_length: int):
-    print("Models incoming.")
     embedding_layer = Embedding(
         embedding_matrix.shape[0],
         embedding_matrix.shape[1],
@@ -80,13 +80,13 @@ def build_embedding_model(embedding_matrix: np.ndarray, max_seq_length: int):
 
 
 def load_word_ids(embedding_model: WordEmbeddingModelName, source: str) -> np.ndarray:
-    return np.load(f'{embedding_model}/text_data_{source}.npy')
+    return np.load(word_embedding_dir / embedding_model / f'text_data_{source}.npy')
 
 
 def load_embedding_matrix(embedding_model: WordEmbeddingModelName, source: str):
     assert embedding_model == 'w2v'
 
-    model = Word2Vec.load(f'w2v/{source}W2V.model')
+    model = Word2Vec.load(str(word_embedding_dir / embedding_model / f'{source}W2V.model'))
     embedding_matrix = np.zeros((len(model.wv), model.wv.vector_size))
     for i in range(len(model.wv)):
         embedding_vector = model.wv[model.wv.index_to_key[i]]

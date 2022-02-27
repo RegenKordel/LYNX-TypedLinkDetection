@@ -9,9 +9,10 @@ from sklearn.metrics import classification_report, confusion_matrix
 from sklearn.model_selection import train_test_split
 from tensorflow.keras.models import Model
 
+from tld.config import train_results_dir, link_embedding_dir
 from tld.models.cnn.data import WordEmbeddingModelName, get_label_to_linktype_map, load_issues, load_links, \
     prepare_links, load_word_ids, add_word_ids, calc_max_concat_seq_length, build_embedding_model, \
-    load_embedding_matrix, train_classifier, get_configuration_key, get_link_embeddings
+    load_embedding_matrix, train_classifier, get_link_embeddings
 from tld.models.cnn.shared import assemble_models
 
 
@@ -20,7 +21,6 @@ class LinkModelBuilder(Protocol):
 
 
 def main(model_name: str, build_link_model: LinkModelBuilder, source: str, include_non_links: bool):
-    print("Disabling eager execution.")
     tf.compat.v1.disable_eager_execution()
 
     issue_df = load_issues(source)
@@ -74,9 +74,9 @@ def main(model_name: str, build_link_model: LinkModelBuilder, source: str, inclu
 
     configuration_key = f'{source}_LT' + ('_plus' if include_non_links else '')
     test_df[['name', 'linktype', 'issue_id_1', 'issue_id_2', 'mappedtype', 'label', 'preds']] \
-        .to_csv(f'embeddings/test_df_LT_{configuration_key}_{model_name}.csv')
-    class_rep_df.to_csv(f'results/class_rep_LT_{configuration_key}_{model_name}.csv')
-    conf_mat_df.to_csv(f'results/conf_mat_LT_{configuration_key}_{model_name}.csv')
+        .to_csv(link_embedding_dir / f'test_df_LT_{configuration_key}_{model_name}.csv')
+    class_rep_df.to_csv(train_results_dir / f'class_rep_LT_{configuration_key}_{model_name}.csv')
+    conf_mat_df.to_csv(train_results_dir / f'conf_mat_LT_{configuration_key}_{model_name}.csv')
 
 
 def train_model(model, dataset):
