@@ -16,7 +16,7 @@ from transformers.trainer_utils import get_last_checkpoint, IntervalStrategy
 
 from tld.config import (train_output_dir,
                         train_results_dir)
-from tld.dataset import get_link_dataset
+from tld.models.bert.dataset import get_link_dataset
 from tld.linktypes import Target
 
 random_alphabet = ascii_letters + digits
@@ -173,26 +173,3 @@ def predict_with_hidden_states(trainer, dataset) -> ModelOutputs:
 
 def choose_random_id(length: int) -> str:
     return ''.join(random.choices(random_alphabet, k=length))
-
-
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--model', required=True)
-    parser.add_argument('--tracker', required=True)
-    parser.add_argument('--target', required=True)
-    parser.add_argument('--non-links', action=argparse.BooleanOptionalAction)
-    parser.add_argument('--train-batch-size', type=int, required=True)
-    parser.add_argument('--eval-batch-size', type=int, required=True)
-    parser.add_argument('--n-epochs', type=int, required=True)
-    
-    args = parser.parse_args()
-
-    main(
-        model_name=args.model,
-        tracker=args.tracker,
-        target=args.target,
-        include_non_links=args.non_links,
-        train_batch_size=args.train_batch_size,
-        eval_batch_size=args.eval_batch_size,
-        n_epochs=args.n_epochs,
-    )
