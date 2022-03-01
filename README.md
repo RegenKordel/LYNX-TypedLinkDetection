@@ -12,48 +12,45 @@ There are three subfolders;
 
 ### data
 Contains the data we used for our analysis and machine learning models.
-This folder contains three subfolders; raw, processed, and splits.
+This folder contains the following subfolders; raw, processed, splits, results.
 
 The script used to extract the data are also in this subfolder, ``data_extract.py`` and ``data_access.py``
+Overviews for user numbers per repository and other properties are saved in ``repo_overview.csv`` and ``user_numbers.csv``
 
 ### tld
 Contains the python scrips to run all models, they will save their data into the results folder
 
 ### pics
 Contains the figures contained in the packages and further figures that were not included in the paper.
+
+### Jupyter Notebooks
+
+#### BERT_results_correlations
+Extracts the results on the test data from the results folder and calculates the precision, recall, and F1-score per repository.
+It also calculates the correlations of the macro F1-scores to properties of the repositories and link types.
+
+#### DetailedTestdata_Top3Prediction
+Connects the results on the test data to their input texts, contains an analyze to the text length and the results of the optimization strategy "Top3 Prediction" which predicts the top 3 possible labels based on the logits, can be adapted to top k prediciton.
+
+#### Linktype_Properties
+Calculates the cosine similarity of the issue texts of linked issues, as well as their lengths and the absolute difference.
+Saves the result as a .csv in data for further analysis.
+
+#### Random_Majority_results
+Calculates the F1-score and accuracy of the random and majority baseline.
+
+#### Repository_Properties
+Calculates the numbers of Table 1 and 2, then saves Table 1 as .csv for further analysis.
+
+#### SCCNN_DCCNN_results
+Calculates the F1-score of the SCCNN and DCCNN architectures.
  
-
-
-# Python Packages
-Python Version: Python 3.8.10
-
-- gensim                   4.0.1                      
-- Keras                    2.4.3              
-- keras-nightly            2.5.0.dev2021032900
-- Keras-Preprocessing      1.1.2                     
-- matplotlib               3.4.2                        
-- networkx                 2.6.2              
-- nltk                     3.6.2              
-- numpy                    1.19.5                      
-- pandas                   1.2.4                         
-- pymongo                  3.11.4                   
-- regex                    2021.4.4                
-- scikit-learn             0.24.2             
-- scipy                    1.6.3              
-- seaborn                  0.11.1                       
-- sklearn                  0.0                      
-- spacy                    3.0.6              
-- spacy-legacy             3.0.5                   
-- stanza                   1.2                
-- tensorboard              2.5.0              
-- tensorboard-data-server  0.6.1              
-- tensorboard-plugin-wit   1.8.0              
-- tensorflow               2.5.0              
-- tensorflow-addons        0.13.0             
-- tqdm                     4.60.0             
 
 # Steps for Replication
 1. Download the extraced data from Montgomery et al.
 2. Install the python packages on your machine or in a virtual environments
-3. Run the ``data_extract.py`` script.
+3. Run the ``data_extract.py`` script to extract issues and links to data/raw
+4. Preprocess the data
+5. Run the experiments
+6. Run the jupyter notebooks BERT_results_correlations.ipynb to see results
 
