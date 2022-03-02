@@ -29,7 +29,7 @@ Contains the figures contained in the packages and further figures that were not
 Extracts the results on the test data from the results folder and calculates the precision, recall, and F1-score per repository.
 It also calculates the correlations of the macro F1-scores to properties of the repositories and link types.
 
-#### CreateWordModels
+#### Create_Word_Models
 Creates word2vec and fasttext models and embedding vectors for SCCNN and DCCNN experiments, these are saved under data.
 
 #### DetailedTestdata_Top3Prediction
