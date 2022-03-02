@@ -32,6 +32,9 @@ It also calculates the correlations of the macro F1-scores to properties of the 
 #### DetailedTestdata_Top3Prediction
 Connects the results on the test data to their input texts, contains an analyze to the text length and the results of the optimization strategy "Top3 Prediction" which predicts the top 3 possible labels based on the logits, can be adapted to top k prediciton.
 
+#### Preprocessing
+Preprocesses the raw data extracted with ``data_extract.py``. Cleans issues and links. Issues are removed when they have no title and links are checked for duplicates etc., the script also adds 'non-links'.
+
 #### Linktype_Properties
 Calculates the cosine similarity of the issue texts of linked issues, as well as their lengths and the absolute difference.
 Saves the result as a .csv in data for further analysis.
@@ -50,7 +53,7 @@ Calculates the F1-score of the SCCNN and DCCNN architectures.
 1. Download the extraced data from Montgomery et al.
 2. Install the python packages on your machine or in a virtual environments
 3. Run the ``data_extract.py`` script to extract issues and links to data/raw
-4. Preprocess the data
+4. Preprocess the data with the jupyter notebook, this adds the processed data into data/processed
 5. Run the experiments
 6. Run the jupyter notebooks BERT_results_correlations.ipynb to see results
 
