@@ -29,6 +29,9 @@ Contains the figures contained in the packages and further figures that were not
 Extracts the results on the test data from the results folder and calculates the precision, recall, and F1-score per repository.
 It also calculates the correlations of the macro F1-scores to properties of the repositories and link types.
 
+#### CreateWordModels
+Creates word2vec and fasttext models and embedding vectors for SCCNN and DCCNN experiments, these are saved under data.
+
 #### DetailedTestdata_Top3Prediction
 Connects the results on the test data to their input texts, contains an analyze to the text length and the results of the optimization strategy "Top3 Prediction" which predicts the top 3 possible labels based on the logits, can be adapted to top k prediciton.
 
