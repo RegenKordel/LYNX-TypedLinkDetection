@@ -13,7 +13,7 @@ builder: Dict[str, LinkModelBuilder] = {
 parser = argparse.ArgumentParser()
 parser.add_argument('--model', required=True, choices=['sccnn', 'dccnn'])
 parser.add_argument('--tracker', required=True)
-parser.add_argument('--non-links', action=argparse.BooleanOptionalAction)
+parser.add_argument('--non-links', action=argparse.BooleanOptionalAction, default=True)
 
 args = parser.parse_args()
 
