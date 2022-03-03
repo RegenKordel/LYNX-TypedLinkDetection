@@ -4,16 +4,24 @@ channels:
   - conda-forge
 
 dependencies:
-  - cudatoolkit=11.3
+  - beautifulsoup4=4.10.0
+  - cudatoolkit=11.3.1
   - datasets=1.18.3
-  - ipywidgets=
-  - jupyterlab=3.2.8
-  - numpy=1.22.1
-  - pandas=1.4.0
+  - gensim=4.1.2
+  - matplotlib=3.5.1
+  - nltk=3.6.7
+  - nltk_data=2019.07.04
+  - numpy=1.22.2
+  - pandas=1.4.1
+  - pip
+  - pymongo=4.0.1
   - python=3.9.10
   - pytorch=1.10.2
   - scikit-learn=1.0.2
-  - torchaudio=0.10.2
-  - torchvision=0.11.3
-  - tqdm=4.62.3
-  - transformers=4.12.2
+  - scipy=1.8.0
+  - seaborn=0.11.2
+  - tensorflow=2.6.0
+  - tqdm=4.63.0
+  - transformers=4.16.2
+  - pip:
+    - tensorflow_addons==0.16.1
