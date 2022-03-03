@@ -60,3 +60,24 @@ Calculates the F1-score of the SCCNN and DCCNN architectures.
 5. Run the experiments
 6. Run the jupyter notebooks BERT_results_correlations.ipynb to see results
 
+## Running the experiments
+To train a BERT-based typed link detection model, run the `tld.models.bert` module.
+The module takes the training configuration as CLI parameters.
+For example, the following command replicates the paper results for the `redhat` repository. 
+```
+python -m tld.models.bert \
+  --model bert-base-uncased \
+  --tracker redhat \
+  --train-batch-size 48 \
+  --eval-batch-size 128 \
+  --n-epochs 30
+```
+
+To train one of the CNN-based models, run the `tld.models.cnn` module.
+Select a model architecture with the `--model` CLI argument, using either `sccnn` or `dccnn`.
+For example, the following command replicates our SCCNN results for the `redhat` repository.
+```
+python -m tld.models.cnn \
+  --model sccnn \
+  --tracker redhat
+```
