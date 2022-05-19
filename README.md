@@ -1,5 +1,5 @@
 # Automated Detection of Typed Links in Issue Trackers
-![DOI](https://zenodo.org/badge/462716832.svg)](https://zenodo.org/badge/latestdoi/462716832)
+[![DOI](https://zenodo.org/badge/462716832.svg)](https://zenodo.org/badge/latestdoi/462716832)
 This repository contains the data, experiments, and analysis for the RE2022 submission "Automated Detection of Typed Links in Issue Trackers".
 With this repository you should be able to replicate the experiments or use the model on your own datasets.
 
