@@ -1,5 +1,6 @@
 # Automated Detection of Typed Links in Issue Trackers
 [![DOI](https://zenodo.org/badge/462716832.svg)](https://zenodo.org/badge/latestdoi/462716832)
+
 This repository contains the data, experiments, and analysis for the RE2022 submission "Automated Detection of Typed Links in Issue Trackers".
 With this repository you should be able to replicate the experiments or use the model on your own datasets.
 
@@ -58,7 +59,7 @@ Calculates the F1-score of the SCCNN and DCCNN architectures.
  
 
 # Steps for Replication
-1. Download the extraced data from Montgomery et al.
+1. Download the extraced data from Montgomery et al. (<a href="https://doi.org/10.5281/zenodo.5901956"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.5901956.svg" alt="DOI"></a>)
 2. Install the python packages on your machine or in a virtual environments
 3. Run the ``data_extract.py`` script to extract issues and links to data/raw
 4. Preprocess the data with the jupyter notebook, this adds the processed data into data/processed
