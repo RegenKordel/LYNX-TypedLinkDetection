@@ -1,8 +1,13 @@
 # Automated Detection of Typed Links in Issue Trackers
-
+![DOI](https://zenodo.org/badge/462716832.svg)](https://zenodo.org/badge/latestdoi/462716832)
 This repository contains the data, experiments, and analysis for the RE2022 submission "Automated Detection of Typed Links in Issue Trackers".
+With this repository you should be able to replicate the experiments or use the model on your own datasets.
 
-Upon acceptance this repository and its data will be made fully public on Zenodo and GitHub.
+## Author Information
+
+- Clara Marie Lüders, University of Hamburg
+- Tim Pietz, University of Hamburg
+- Walid Maalej, University of Hamburg
 
 ## Structure of the Repository
 There are three subfolders;
