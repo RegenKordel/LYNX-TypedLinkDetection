@@ -117,7 +117,7 @@ def extract_issue_csv(project):
     logging.info(f'Creating csv.')
     df = pd.DataFrame.from_dict(d)
     # adapt file path
-    filename = '~data/raw/issues_' + project.lower() + '.csv'
+    filename = 'raw/issues_' + project.lower() + '.csv'
     logging.info(filename)
     df.to_csv(filename, sep=';', index=False)
     return None
@@ -246,7 +246,7 @@ def extract_links_csv(project):
     logging.info(f'Creating csv.')
     df = pd.DataFrame.from_dict(d)
     # adapt file path
-    filename = '~data/raw/links_' + project.lower() + '.csv'
+    filename = 'raw/links_' + project.lower() + '.csv'
     df.to_csv(filename, sep=';', index=False)
     return None
 
@@ -383,7 +383,7 @@ if __name__ == '__main__':
         # user_dict[s] = temp
     # logging.info(user_dict)
     # df = pd.DataFrame.from_dict(user_dict)
-    # filename = '~/Desktop/maintainer_set.csv'
+    # filename = 'maintainer_set.csv'
     #
     # logging.info(filename)
     # df.to_csv(filename, sep=';', index=False)
@@ -396,7 +396,7 @@ if __name__ == '__main__':
     #
     # logging.info(user_dict)
     # df = pd.DataFrame.from_dict(user_dict)
-    # filename = '~/Desktop/user_dict_je.csv'
+    # filename = 'user_dict_je.csv'
     #
     # logging.info(filename)
     # df.to_csv(filename, sep=';', index=False)
