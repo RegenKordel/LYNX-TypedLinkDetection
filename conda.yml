@@ -9,6 +9,7 @@ dependencies:
   - datasets=1.18.3
   - gensim=4.1.2
   - matplotlib=3.5.1
+  - jupyter=1.0.0
   - nltk=3.6.7
   - nltk_data=2019.07.04
   - numpy=1.22.2

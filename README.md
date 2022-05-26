@@ -21,7 +21,7 @@ Contains the data we used for our analysis and machine learning models.
 This folder contains the following subfolders; raw, processed, splits, results.
 The folder also contains the scripts ``data_extract.py`` and ``data_access.py`` and a few intermittent results from some analysis (.csv files), f.e overviews for user numbers per repository and other properties are saved in ``repo_overview.csv`` and ``user_numbers.csv``.
 
-We used the JIRA data from here: [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5901956.svg)](https://doi.org/10.5281/zenodo.5901956). Donwload the data and follow the instructions detailed on the site to set up a MongoDB containing the JIRA data.
+We used the JIRA data from here: [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5901956.svg)](https://doi.org/10.5281/zenodo.5901956).
 
 The script ``data_extract.py`` uses ``data_access.py`` to access the MongoDB. ``data_extract.py`` goes through all the entries inside one collection and saves all issues and all links into ``raw``. It also contains a function to calculate the number of contributors (result already saved as .csv in the data folder).
 
@@ -60,12 +60,22 @@ Calculates the numbers of Table 1 and 2, then saves Table 1 as .csv for further 
 Calculates the F1-score of the SCCNN and DCCNN architectures.
  
 # Steps for Replication
-1. Download the extraced data from Montgomery et al. (<a href="https://doi.org/10.5281/zenodo.5901956"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.5901956.svg" alt="DOI"></a>)
-2. Install the python packages on your machine or in a virtual environments
+1. Download the Jira Dataset from Montgomery et al. (<a href="https://doi.org/10.5281/zenodo.5901956"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.5901956.svg" alt="DOI"></a>). Follow the instructions detailed on the site to set up a MongoDB containing the data.
+2. Setup the python environment specified in the `conda.yml` with a conda distribution of your choice like [Miniconda](https://docs.conda.io/en/latest/miniconda.html) and activate it with
+   ```
+   conda env create -f conda.yml
+   conda activate tld
+   ```
 3. Run the ``data_extract.py`` script to extract issues and links to data/raw
 4. Preprocess the data with the jupyter notebook ``Preproccesing.ipynb``, this adds the processed data into data/processed
+   ```
+   jupyter notebook Preprocessing.ipynb
+   ```
 5. Run the experiments as detailed in the next step
-6. Run the jupyter notebooks BERT_results_correlations.ipynb to see results
+6. Run the jupyter notebook BERT_results_correlations.ipynb to see the results
+   ```
+   jupyter notebook BERT_results_correlations.ipynb
+   ```
 
 ## Running the experiments
 To train a BERT-based typed link detection model, run the `tld.models.bert` module.
