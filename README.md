@@ -19,9 +19,11 @@ There are three subfolders;
 ### data
 Contains the data we used for our analysis and machine learning models.
 This folder contains the following subfolders; raw, processed, splits, results.
+The folder also contains the scripts ``data_extract.py`` and ``data_access.py`` and a few intermittent results from some analysis (.csv files), f.e overviews for user numbers per repository and other properties are saved in ``repo_overview.csv`` and ``user_numbers.csv``.
 
-The script used to extract the data are also in this subfolder, ``data_extract.py`` and ``data_access.py``
-Overviews for user numbers per repository and other properties are saved in ``repo_overview.csv`` and ``user_numbers.csv``
+We used the JIRA data from here: [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5901956.svg)](https://doi.org/10.5281/zenodo.5901956). Donwload the data and follow the instructions detailed on the site to set up a MongoDB containing the JIRA data.
+
+The script ``data_extract.py`` uses ``data_access.py`` to access the MongoDB. ``data_extract.py`` goes through all the entries inside one collection and saves all issues and all links into ``raw``. It also contains a function to calculate the number of contributors (result already saved as .csv in the data folder).
 
 ### tld
 Contains the python scrips to run all models, they will save their data into the results folder
@@ -57,13 +59,12 @@ Calculates the numbers of Table 1 and 2, then saves Table 1 as .csv for further 
 #### SCCNN_DCCNN_results
 Calculates the F1-score of the SCCNN and DCCNN architectures.
  
-
 # Steps for Replication
 1. Download the extraced data from Montgomery et al. (<a href="https://doi.org/10.5281/zenodo.5901956"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.5901956.svg" alt="DOI"></a>)
 2. Install the python packages on your machine or in a virtual environments
 3. Run the ``data_extract.py`` script to extract issues and links to data/raw
-4. Preprocess the data with the jupyter notebook, this adds the processed data into data/processed
-5. Run the experiments
+4. Preprocess the data with the jupyter notebook ``Preproccesing.ipynb``, this adds the processed data into data/processed
+5. Run the experiments as detailed in the next step
 6. Run the jupyter notebooks BERT_results_correlations.ipynb to see results
 
 ## Running the experiments
@@ -87,3 +88,12 @@ python -m tld.models.cnn \
   --model sccnn \
   --tracker redhat
 ```
+
+## Using your own data
+
+Create an ``issue.csv`` containing all issues and a ``link.csv`` containing all links in your dataset.
+The ``issue.csv`` should contain at least a column for the id, title, description, and resolution (needed to create random non-links). 
+The ``link.csv`` should contain a column for issue_id_1, issue_id_2, linktype, and name (we used issue_id_1+issue_id_2+linktype, but in general a unique identifier for a link).
+These are the neseccary columns to run the deep learning models.
+Some analysis, f.e. ``Repository_Properties.ipynb`` contains analysis regarding the (sub-)projects and issue belongs to, so these will not run correctly if there is no ``projectid`` column.
+If your data contains link types that are not in the JIRA dataset, you might need to provide a new entry into the dictionary found in ``tld/linktypes.py``
