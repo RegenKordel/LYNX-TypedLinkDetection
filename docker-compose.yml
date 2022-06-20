@@ -6,7 +6,7 @@ services:
     volumes:
       - .:/lynx
     ports:
-      - 8899:8888
+      - 8888:8888
 
   mongo:
     image: ietz/jira-dataset
