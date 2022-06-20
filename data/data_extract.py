@@ -1,4 +1,4 @@
-from export import data_access
+import argparse
 import logging
 import pandas as pd
 import itertools
@@ -11,16 +11,14 @@ import math
 from pprint import pprint
 from bs4 import BeautifulSoup as Soup
 import datetime
+from pymongo import MongoClient
+import os
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
-def extract_issue_csv(project):
-    client = data_access.MongoDBConnection(host='localhost', port=27017,
-                                           auth_mechanism=None, auth_source=None,
-                                           password=None, username=None,
-                                           connect_timeout=5000).client
+def extract_issue_csv(project, client: MongoClient):
     db = client['JiraRepos']
     source_collection = db[project]
     cursor = source_collection.find({})
@@ -123,11 +121,7 @@ def extract_issue_csv(project):
     return None
 
 
-def extract_links_csv(project):
-    client = data_access.MongoDBConnection(host='localhost', port=27017,
-                                           auth_mechanism=None, auth_source=None,
-                                           password=None, username=None,
-                                           connect_timeout=5000).client
+def extract_links_csv(project, client: MongoClient):
     db = client['JiraRepos']
     source_collection = db[project]
     cursor = source_collection.find({})
@@ -251,11 +245,7 @@ def extract_links_csv(project):
     return None
 
 
-def calculate_contributors(project):
-    client = data_access.MongoDBConnection(host='localhost', port=27017,
-                                           auth_mechanism=None, auth_source=None,
-                                           password=None, username=None,
-                                           connect_timeout=5000).client
+def calculate_contributors(project, client: MongoClient):
     db = client['lynxdata']
     source_collection = db[project]
     cursor = source_collection.find({})
@@ -315,15 +305,11 @@ def calculate_contributors(project):
 
     return [len(user_set), len(creator_set), len(reporter_set), len(assignee_set)]
 
-def extract_link_history_authors(project):
+def extract_link_history_authors(project, client: MongoClient):
     """
     Calculate the average number of comments per issue for Eclipse data.
     :return: The average values for all platforms.
     """
-    client = data_access.MongoDBConnection(host='localhost', port=27017,
-                                           auth_mechanism=None, auth_source=None,
-                                           password=None, username=None,
-                                           connect_timeout=5000).client
     db = client['lynxdata']
     source_collection = db[project]
     cursor = source_collection.find({})
@@ -358,23 +344,34 @@ def extract_link_history_authors(project):
 
     return len(maintainer_set)
 
+
 if __name__ == '__main__':
-    # to_csv_with_changelog()
-    # to_csv_with_changelog_items()
-    # to_csv_with_links()
-    # to_csv_orphans()
-    #
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--host', default='localhost')
+    parser.add_argument('--port', type=int, default=27017)
+    parser.add_argument('--username', default=None)
+    parser.add_argument('--password', default=None)
+
+    args = parser.parse_args()
+    client = MongoClient(
+        host=args.host,
+        port=args.port,
+        username=args.username,
+        password=args.password,
+        serverSelectionTimeoutMS=5000,
+    )
+
     SOURCES = ['Apache', 'Hyperledger', 'IntelDAOS', 'JFrog', 'Jira',
                'JiraEcosystem',  'MariaDB', 'Mindville','Mojang' , 'MongoDB', 'Qt',
                'RedHat', 'Sakai', 'SecondLife', 'Sonatype', 'Spring']
 
-    user_dict = {}
 
     for s in SOURCES:
         logging.info(s)
         extract_issue_csv(s)
         extract_links_csv(s)
-        #
+    
+    # user_dict = {}
 
     # For Maintainer set:
     # for s in SOURCES:
