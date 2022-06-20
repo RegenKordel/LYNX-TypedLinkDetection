@@ -368,15 +368,15 @@ if __name__ == '__main__':
 
     for s in SOURCES:
         logging.info(s)
-        extract_issue_csv(s)
-        extract_links_csv(s)
+        extract_issue_csv(s, client=client)
+        extract_links_csv(s, client=client)
     
     # user_dict = {}
 
     # For Maintainer set:
     # for s in SOURCES:
     #     logging.info(s)
-        # temp = extract_link_history_authors(s)
+        # temp = extract_link_history_authors(s, client=client)
         # user_dict[s] = temp
     # logging.info(user_dict)
     # df = pd.DataFrame.from_dict(user_dict)
@@ -388,7 +388,7 @@ if __name__ == '__main__':
     # For User set:
     # for s in SOURCES:
     #     logging.info(s)
-    #     temp = calculate_contributors(s)
+    #     temp = calculate_contributors(s, client=client)
     #     user_dict[s] = temp
     #
     # logging.info(user_dict)
