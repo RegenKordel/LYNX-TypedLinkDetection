@@ -19,11 +19,11 @@ There are three subfolders;
 ### data
 Contains the data we used for our analysis and machine learning models.
 This folder contains the following subfolders; raw, processed, splits, results.
-The folder also contains the scripts ``data_extract.py`` and ``data_access.py`` and a few intermittent results from some analysis (.csv files), f.e overviews for user numbers per repository and other properties are saved in ``repo_overview.csv`` and ``user_numbers.csv``.
+The folder also contains the script ``data_extract.py`` and a few intermittent results from some analysis (.csv files), f.e overviews for user numbers per repository and other properties are saved in ``repo_overview.csv`` and ``user_numbers.csv``.
 
 We used the JIRA data from here: [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5901956.svg)](https://doi.org/10.5281/zenodo.5901956).
 
-The script ``data_extract.py`` uses ``data_access.py`` to access the MongoDB. ``data_extract.py`` goes through all the entries inside one collection and saves all issues and all links into ``raw``. It also contains a function to calculate the number of contributors (result already saved as .csv in the data folder). Please run the ``data_extract.py`` script in the data folder as thet path is set accordingly. The extract functions for the issues and links use `JiraRepos` as a database name, so if you have another name, change it accordingly.
+The script ``data_extract.py`` accesses the MongoDB and goes through all the entries inside one collection and saves all issues and all links into ``raw``. It also contains a function to calculate the number of contributors (result already saved as .csv in the data folder). Please run the ``data_extract.py`` script in the data folder as thet path is set accordingly. The extract functions for the issues and links use `JiraRepos` as a database name, so if you have another name, change it accordingly.
 
 ### tld
 Contains the python scrips to run all models, they will save their data into the results folder
