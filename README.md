@@ -106,12 +106,13 @@ If you want to use the replication package
    conda env create -f conda.yml
    conda activate tld
    ```
+3. Follow the steps in the "Steps to Reproduce" section below.
 
 ## Steps to Reproduce
-1. Run the ``data_extract.py`` script to extract issues and links into the `data/raw` directory.
+1. Run the ``data_extract.py`` script from the `data` folder to extract issues and links into the `data/raw` directory.
    You can specify the MongoDB access details using CLI arguments
    ```
-   python data/data_extract.py --host [host] --port [port] --username [username] --password [password]
+   python data_extract.py --host [host] --port [port] --username [username] --password [password]
    ```
    With the Docker Compose setup, use `--host mongo` and leave out the other arguments.
 2. Preprocess the data with the jupyter notebook ``Preproccesing.ipynb``, this adds the processed data into data/processed
