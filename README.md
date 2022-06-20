@@ -65,7 +65,7 @@ If you want to use the replication package
 - **with Docker,** you will need a x86 architecture environment with [Docker Compose](https://docs.docker.com/compose/install/) installed.
 - **without Docker,** you will need to use a Linux system running on a x86 architecture with a working `conda` distribution like [Miniconda](https://docs.conda.io/en/latest/miniconda.html) and a [MongoDB](https://www.mongodb.com/try/download/community) server.
  
-## Steps for Replication
+## Installation Instructions
 ### With Docker
 1. Clone the repository
 2. Start the docker services with
@@ -93,7 +93,7 @@ If you want to use the replication package
     or http://127.0.0.1:8888/?token=[…]
    ```
 4. Open the Jupyter Notebook instance using the link displayed in the logs.
-5. Follow the steps in the "General" section below.
+5. Follow the steps in the "Steps to Reproduce" section below.
    In the steps where you need to run a Python script, you can use the terminal built into the Jupyter UI.
    The Jupyter notebook Docker container volume mounts you locally cloned repository.
    All of the outputs are thus saved in the repository directory of your machine.
@@ -107,7 +107,7 @@ If you want to use the replication package
    conda activate tld
    ```
 
-### General
+## Steps to Reproduce
 1. Run the ``data_extract.py`` script to extract issues and links into the `data/raw` directory.
    You can specify the MongoDB access details using CLI arguments
    ```
@@ -118,7 +118,7 @@ If you want to use the replication package
 3. Run the experiments as detailed in the next README section "Running the experiments"
 4. Run the jupyter notebook `BERT_results_correlations.ipynb` to see the results
 
-## Running the experiments
+### Running the experiments
 To train a BERT-based typed link detection model, run the `tld.models.bert` module.
 The module takes the training configuration as CLI parameters.
 For example, the following command replicates the paper results for the `redhat` repository. 
