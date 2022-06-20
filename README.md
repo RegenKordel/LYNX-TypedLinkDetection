@@ -10,7 +10,7 @@ With this repository you should be able to replicate the experiments or use the 
 - Tim Pietz, University of Hamburg
 - Walid Maalej, University of Hamburg
 
-## Structure of the Repository
+## Description of Artifact
 There are three subfolders;
 - data
 - tld
@@ -58,24 +58,65 @@ Calculates the numbers of Table 1 and 2, then saves Table 1 as .csv for further 
 
 #### SCCNN_DCCNN_results
 Calculates the F1-score of the SCCNN and DCCNN architectures.
+
+## System Requirements
+Due to the size of the Jira dataset, we recommend a system with at least 24 GB memory available.
+If you want to use the replication package
+- **with Docker,** you will need a x86 architecture environment with [Docker Compose](https://docs.docker.com/compose/install/) installed.
+- **without Docker,** you will need to use a Linux system running on a x86 architecture with a working `conda` distribution like [Miniconda](https://docs.conda.io/en/latest/miniconda.html) and a [MongoDB](https://www.mongodb.com/try/download/community) server.
  
-# Steps for Replication
-1. Download the Jira Dataset from Montgomery et al. (<a href="https://doi.org/10.5281/zenodo.5901956"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.5901956.svg" alt="DOI"></a>). Follow the instructions detailed on the site to set up a MongoDB containing the data.
-2. Setup the python environment specified in the `conda.yml` with a conda distribution of your choice like [Miniconda](https://docs.conda.io/en/latest/miniconda.html) and activate it with
+## Steps for Replication
+### With Docker
+1. Clone the repository
+2. Start the docker services with
+   ```bash
+   docker compose up -d
+   ```
+   The compose first build a docker image for the replication package, installing a Jupyter Notebook server alongside all the neccessary Python dependencies.
+   Additionally, it also spins up a MongoDB instance that automatically initializes with the Jira dataset from Montgomery et al. (<a href="https://doi.org/10.5281/zenodo.5901956"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.5901956.svg" alt="DOI"></a>).
+3. Observe the MongoDB container with
+   ```
+   docker compose logs mongo -f
+   ```
+   and wait for the import to finish.
+   The MongoDB instance will countinuously print out log messages relating to the import at least every 5 seconds.
+   After the import has finished, it will print a `"Waiting for connections"` message and the frequency of log messages decreases significantly.
+   Depending on your network connection, the import process might take 20-30 minutes.
+3. View the Python image outputs with
+   ```
+   docker compose logs lynx -f
+   ```
+   and look for a message like
+   ```
+   Jupyter Notebook 6.4.12 is running at:
+   http://79f633f1551b:8888/?token=[…]
+    or http://127.0.0.1:8888/?token=[…]
+   ```
+4. Open the Jupyter Notebook instance using the link displayed in the logs.
+5. Follow the steps in the "General" section below.
+   In the steps where you need to run a Python script, you can use the terminal built into the Jupyter UI.
+   The Jupyter notebook Docker container volume mounts you locally cloned repository.
+   All of the outputs are thus saved in the repository directory of your machine.
+
+### Without Docker
+1. Download the Jira Dataset from Montgomery et al. (<a href="https://doi.org/10.5281/zenodo.5901956"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.5901956.svg" alt="DOI"></a>).
+   Follow the instructions detailed in the `README.md` of step 3 on the site to import the data into your MongoDB server.
+2. Setup the python environment specified in the `conda.yml` and activate it with
    ```
    conda env create -f conda.yml
    conda activate tld
    ```
-3. Run the ``data_extract.py`` script to extract issues and links to data/raw
-4. Preprocess the data with the jupyter notebook ``Preproccesing.ipynb``, this adds the processed data into data/processed
+
+### General
+1. Run the ``data_extract.py`` script to extract issues and links into the `data/raw` directory.
+   You can specify the MongoDB access details using CLI arguments
    ```
-   jupyter notebook Preprocessing.ipynb
+   python data/data_extract.py --host [host] --port [port] --username [username] --password [password]
    ```
-5. Run the experiments as detailed in the next step
-6. Run the jupyter notebook BERT_results_correlations.ipynb to see the results
-   ```
-   jupyter notebook BERT_results_correlations.ipynb
-   ```
+   With the Docker Compose setup, use `--host mongo` and leave out the other arguments.
+2. Preprocess the data with the jupyter notebook ``Preproccesing.ipynb``, this adds the processed data into data/processed
+3. Run the experiments as detailed in the next README section "Running the experiments"
+4. Run the jupyter notebook `BERT_results_correlations.ipynb` to see the results
 
 ## Running the experiments
 To train a BERT-based typed link detection model, run the `tld.models.bert` module.

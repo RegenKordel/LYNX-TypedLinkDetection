@@ -1,0 +1,17 @@
+version: '3.9'
+
+services:
+  lynx:
+    build: .
+    volumes:
+      - .:/lynx
+    ports:
+      - 8899:8888
+
+  mongo:
+    image: ietz/jira-dataset
+    volumes:
+      - mongo-data:/data/db
+
+volumes:
+  mongo-data:
