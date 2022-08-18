@@ -24,7 +24,8 @@ fine_linktype_map = {
     'Parent-Relation': 'Parent-Child',
 
     'Cloners': 'Clone', 
-    'Cloners (old)': 'Clone', 
+    'Cloners (old)': 'Clone',
+    'Cloners (migrated)': 'Clone',
 
     'Collection': 'Incorporate', 
     'Container': 'Incorporate',
