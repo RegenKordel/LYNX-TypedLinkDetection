@@ -31,6 +31,10 @@ Contains the python scrips to run all models, they will save their data into the
 ### pics
 Contains the figures contained in the packages and further figures that were not included in the paper.
 
+## REJ Additions:
+- files marked with REJ
+- you have to adapt prepare data for the individual test cases (filter out Relates, map to link vs non-link, see linktypes.py)
+
 ### Jupyter Notebooks
 
 #### BERT_results_correlations
